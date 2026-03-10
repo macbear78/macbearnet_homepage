@@ -22,7 +22,7 @@
 cd client
 
 # .env.production 또는 빌드 시 환경변수 설정
-# VITE_API_BASE=http://api.macbearnet.co.kr:3000
+# VITE_API_BASE=https://api.macbearnet.co.kr
 npm run build
 ```
 
@@ -48,13 +48,13 @@ npm run build
 빌드 전 `client/.env.production` 생성:
 
 ```
-VITE_API_BASE=http://api.macbearnet.co.kr:3000
+VITE_API_BASE=https://api.macbearnet.co.kr
 ```
 
 또는 CI/CD에서:
 
 ```bash
-VITE_API_BASE=http://api.macbearnet.co.kr:3000 npm run build
+VITE_API_BASE=https://api.macbearnet.co.kr npm run build
 ```
 
 ---
