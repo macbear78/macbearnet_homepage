@@ -22,7 +22,7 @@
 cd client
 
 # .env.production 또는 빌드 시 환경변수 설정
-# VITE_API_URL=https://api.yourdomain.com
+# VITE_API_BASE=http://api.macbearnet.co.kr:3000
 npm run build
 ```
 
@@ -48,13 +48,13 @@ npm run build
 빌드 전 `client/.env.production` 생성:
 
 ```
-VITE_API_URL=https://api.yourdomain.com
+VITE_API_BASE=http://api.macbearnet.co.kr:3000
 ```
 
 또는 CI/CD에서:
 
 ```bash
-VITE_API_URL=https://api.yourdomain.com npm run build
+VITE_API_BASE=http://api.macbearnet.co.kr:3000 npm run build
 ```
 
 ---
@@ -126,7 +126,7 @@ pm2 startup
 
 | 항목 | 확인 |
 |------|------|
-| `VITE_API_URL` 빌드 시 설정 | |
+| `VITE_API_BASE` 빌드 시 설정 | |
 | S3 오류 문서 = index.html | |
 | CORS_ORIGIN에 프론트 도메인 포함 | |
 | ADMIN_PASSWORD, JWT_SECRET 변경 | |

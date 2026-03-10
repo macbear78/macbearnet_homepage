@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:prod": "npx cross-env VITE_API_URL=http://3.36.86.162:3000 vite",
+    "dev:prod": "npx cross-env VITE_API_BASE=http://api.macbearnet.co.kr:3000 vite",
     "build": "vite build",
-    "build:local": "npx cross-env VITE_API_URL=http://localhost:3000 vite build",
+    "build:local": "npx cross-env VITE_API_BASE=http://localhost:3000 vite build",
     "preview": "vite preview"
   },
   "dependencies": {

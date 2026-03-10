@@ -1,9 +1,9 @@
 /**
- * API 기본 URL
- * - 개발: Vite 프록시 사용 (빈 값 = 상대 경로)
- * - 프로덕션: S3와 분리된 백엔드 URL (예: https://api.yourdomain.com)
+ * API 기본 URL (환경 변수 VITE_API_BASE 사용)
+ * - 개발: 빈 값 → Vite 프록시(localhost:3000) 사용
+ * - 프로덕션: http://api.macbearnet.co.kr:3000
  */
-export const API_BASE = import.meta.env.VITE_API_URL || ''
+export const API_BASE = import.meta.env.VITE_API_BASE || ''
 
 export function apiUrl(path) {
   const base = API_BASE.replace(/\/$/, '')
