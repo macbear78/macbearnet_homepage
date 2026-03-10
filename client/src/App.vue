@@ -33,7 +33,14 @@
       </router-view>
     </main>
     <footer class="footer">
-      <p>&copy; {{ new Date().getFullYear() }} MacBearNet. All rights reserved. | 방문자: {{ visitorCount.toLocaleString() }}</p>
+      <p>
+        &copy; {{ new Date().getFullYear() }} MacBearNet. All rights reserved.
+        <button type="button" class="btn-backend-check" :disabled="backendCheck === 'checking'" @click="checkBackend">
+          {{ backendCheck === 'checking' ? '확인 중…' : '백엔드 연결 확인' }}
+        </button>
+        <span v-if="backendCheck === 'ok'" class="backend-status backend-status--ok">연결됨</span>
+        <span v-else-if="backendCheck === 'fail'" class="backend-status backend-status--fail">연결 안 됨</span>
+      </p>
     </footer>
   </div>
 </template>
@@ -49,7 +56,17 @@ const route = useRoute()
 const auth = useAuth()
 const pages = ref([])
 const showLoginModal = ref(false)
-const visitorCount = ref(0)
+const backendCheck = ref(null) // null | 'checking' | 'ok' | 'fail'
+
+async function checkBackend() {
+  backendCheck.value = 'checking'
+  try {
+    const res = await fetch(apiUrl('/api/health'))
+    backendCheck.value = res.ok ? 'ok' : 'fail'
+  } catch {
+    backendCheck.value = 'fail'
+  }
+}
 
 onMounted(async () => {
   try {
@@ -68,14 +85,10 @@ onMounted(async () => {
     if (v === '1') showLoginModal.value = true
   }, { immediate: true })
 
-  // 방문 시 카운트 증가
+  // 방문 시 카운트 기록 (표시는 관리자 페이지에서만)
   try {
-    const res = await fetch(apiUrl('/api/visitors'), { method: 'POST' })
-    const data = await res.json()
-    visitorCount.value = data.total
-  } catch {
-    visitorCount.value = 0
-  }
+    await fetch(apiUrl('/api/visitors'), { method: 'POST' })
+  } catch { /* 무시 */ }
 })
 </script>
 
@@ -194,6 +207,44 @@ body {
   padding: 1.5rem;
   color: var(--text-muted);
   font-size: 0.875rem;
+}
+
+.footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.btn-backend-check {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-left: 0.25rem;
+}
+.btn-backend-check:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.btn-backend-check:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.backend-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.backend-status--ok {
+  color: #34d399;
+}
+.backend-status--fail {
+  color: #f87171;
 }
 
 .fade-enter-active,
